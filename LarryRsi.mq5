@@ -10,7 +10,7 @@
 #property indicator_separate_window
 #property indicator_buffers 1
 #property indicator_minimum 0
-#property indicator_maximum 4
+#property indicator_maximum 2
 #property indicator_plots 1
 #property indicator_type1   DRAW_LINE
 #property indicator_color1  DodgerBlue
@@ -77,14 +77,10 @@ int OnCalculate(const int rates_total,
       double rsiValue = rsiArr[0];
       double maValue = maArr[0];
 
-      if (close[i] > maValue && rsiValue < 25)
+      if (close[i] > maValue && rsiValue < InpRsiLower)
          signalBuffer[i] = 1;     // Buy
-      else if (close[i] < maValue && rsiValue > 75)
-         signalBuffer[i] = 2;     // Sell
-      else if (rsiValue > 75)
-         signalBuffer[i] = 3;     // Close Buy
-      else if (rsiValue < 25)
-         signalBuffer[i] = 4;     // Close Sell
+      else if (rsiValue > InpRsiUpper)
+         signalBuffer[i] = 2;     // Close Buy
       else
          signalBuffer[i] = 0;     // Nothing
    }
