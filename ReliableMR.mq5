@@ -86,7 +86,7 @@ int OnCalculate(const int rates_total,
       double maValue = maArr[0];
 
       double ibsUp = (InpPercent *(high[i]-low[i]) + low[i]);
-      double ibsDown = (high[i] - InpPercent *(high[i] - low[i]));
+      double    = (high[i] - InpPercent *(high[i] - low[i]));
       if(close[i] > maFilterValue      // SMA(200) Filter UP_TREND
             && close[i] < maValue      // Close < SMA (Mean Reversion)
             && close[i] < ibsUp) {     // Close < (0.2x(high - low) + low)

@@ -19,10 +19,10 @@
 double signalBuffer[];
 
 // Input parameters
-input int InpMaPeriod = 200;     // MA period
-input int InpRsiPeriod = 2;      // RSI period
-input double InpRsiLower = 25.0; // RSI Lower
-input double InpRsiUpper = 75.0; // RSI Upper
+input int InpMaPeriod_Larry = 200;     // MA period
+input int InpRsiPeriod_Larry = 2;      // RSI period
+input double InpRsiLower_Larry = 25.0; // RSI Lower
+input double InpRsiUpper_Larry = 75.0; // RSI Upper
 
 int maHandle;
 int rsiHandle;
@@ -35,8 +35,8 @@ int OnInit() {
    IndicatorSetInteger(INDICATOR_DIGITS, 1);
    IndicatorSetString(INDICATOR_SHORTNAME, "Larry RSI");
    string sym = Symbol();
-   maHandle = iMA(sym, PERIOD_CURRENT, InpMaPeriod, 0, MODE_SMA, PRICE_CLOSE);
-   rsiHandle = iRSI(sym, PERIOD_CURRENT, InpRsiPeriod, PRICE_CLOSE);
+   maHandle = iMA(sym, PERIOD_CURRENT, InpMaPeriod_Larry, 0, MODE_SMA, PRICE_CLOSE);
+   rsiHandle = iRSI(sym, PERIOD_CURRENT, InpRsiPeriod_Larry, PRICE_CLOSE);
    if (maHandle == INVALID_HANDLE || rsiHandle == INVALID_HANDLE) {
       Print("Error creating indicators");
       return(INIT_FAILED);
@@ -69,12 +69,12 @@ int OnCalculate(const int rates_total,
                 const int &spread[]) {
 //---
 
-   if (rates_total < InpMaPeriod || rates_total < InpRsiPeriod)
+   if (rates_total < InpMaPeriod_Larry || rates_total < InpRsiPeriod_Larry)
       return(0);
    string sym = Symbol();
 // Calculate signals
    double rsiArr[], maArr[];
-   for (int i = MathMax(InpMaPeriod, InpRsiPeriod) + 1; i < rates_total; i++) {
+   for (int i = MathMax(InpMaPeriod_Larry, InpRsiPeriod_Larry) + 1; i < rates_total; i++) {
 
       int rsiNum = CopyBuffer(rsiHandle, 0, rates_total - i - 1, 1, rsiArr);
       int maNum = CopyBuffer(maHandle, 0, rates_total - i - 1, 1, maArr);
@@ -87,9 +87,9 @@ int OnCalculate(const int rates_total,
       double rsiValue = rsiArr[0];
       double maValue = maArr[0];
 
-      if (close[i] > maValue && rsiValue < InpRsiLower)
+      if (close[i] > maValue && rsiValue < InpRsiLower_Larry)
          signalBuffer[i] = 1;     // Buy
-      else if (rsiValue > InpRsiUpper)
+      else if (rsiValue > InpRsiUpper_Larry)
          signalBuffer[i] = 2;     // Close Buy
       else
          signalBuffer[i] = 0;     // Nothing
